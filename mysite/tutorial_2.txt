@@ -17,3 +17,111 @@ PORTはlocalhostなので空欄（''）にした。
 ちゃんとtestのデータベースにデータベースが色々作成されたね。
 つかれた・・・
 使う時はちゃんとApacheのControlPanelからあれ起動させる。
+
+modelとは
+モデルとは、データベースのレイアウトと、それに付随するメタデータ。
+DRY則：同じことを繰り返さない、らしい。
+ただ一つの場所でデータモデルを作成する。
+pollアプリケーションでは投票項目（Question）と、選択肢（Choice）のふたつのモデルを使う。
+Poll--質問事項（Question）、公開日（Publication date）、
+Choice--選択肢のテキスト、投票数（vote）
+各ChoiceはひとつのQuestionに関連付けられる。
+
+polls/models.pyに次のように記述：
+---------------------------------------------------------------
+from django.db import models
+class Question(models.Model):
+    question_text = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('date published')
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
+---------------------------------------------------------------
+各々のクラスがモデルを表す（テーブルみたいなやつ？）。
+ForeignKeyのところが関連付けを表しているらしい。
+このコードを使ってCREATE TABLE文を実行したり（やっぱりテーブルなんだ）、
+アクセスできるようにしたりするらしい。
+その前に、このアプリケーションが出来たことをmysiteに教える必要がある。
+pollsのapps.pyにPollsConfigがあるので、これを伝えるために、
+mysiteのsettings.pyのINSTALLED_APPSに'polls.apps.PollsConfig'を追加する。
+--------------------
+INSTALLED_APPS = [
+    'polls.apps.PollsConfig',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+--------------------
+そして
+python manage.py makemigrations polls
+と実行。
+Migrations for 'polls':
+  polls/migrations/0001_initial.py:
+    - Create model Choice
+    - Create model Question
+    - Add field question to choice
+と表示された。
+python manage.py sqlmigrate polls 0001
+とコマンドすることでmigrateの履歴を知ることができるみたい。（logみたいな？）
+BEGIN;
+--
+-- Create model choice
+-- CREATE TABLE `polls_choice` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                                `choice_text` varchar(200) NOT NULL, `votes` integer NOT NULL);
+--
+-- Create model Question
+-- CREATE TABLE `polls_question` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                                  `question_text` varchar(200) NOT NULL, `pub_date` datetime(6) NOT NULL);
+--
+-- Add field question to choice
+-- ALTER TABLE `polls_choice` ADD COLUMN `question_id` integer NOT NULL;
+   ALTER TABLE `polls_choice` ADD CONSTRAINT `polls_choice_question_id_c5b4b260_fk_polls_question_id`
+                                             FOREIGN KEY (`quesiton_id`) REFERENCES `polls_question` (`id`);
+   COMMIT;
+
+以上。
+テーブル名はモデル名から自動生成
+PRIMARY KEYは自動的に追加される
+リレーションはFOREIGN KEYで明確化される
+sqlmigrateはSQL文がどんな感じなのかを教えてくれるもの。はい。
+最後にmigrateを実行してデータベース上にテーブルを作成する。
+python manage.py migrate
+と実行する。
+Applying polls.0001_initial... OK
+で、出来たか確認。
+
+なんか、testの中に出来ちゃったけどこれでいいのかな・・
+そのあと
+python manage.py shell
+使って新しくQuestion作ったりして遊んでる。
+
+quitってやったら「quitするにはCtrl-Zしてください」って怒られた。。
+from polls.models import Choice, Question
+でモデルをimportして操作可能にする。
+Question.objects.all()
+でQuestionの中身を知る（あとでここの処理はいじる）
+timezoneを使って質問を作りたいので
+from django.utils import timezone
+としたうえで
+q = Question(question_text = "What's new?", pub_date = timezone.now())
+q.save()
+すればできる。
+q.idで1が出るし、q.question_textやq.pub_dateで日付とか出る。
+q.question_text = "What's up?"
+q.save()
+ってやるだけで内容が変更できたりする。
+
+モデル名.objects.all()で出力されるところは__str__で処理をいじる。
+これで[<Question: "What's up?">]って出るようになった。
+
+createsuperuser
+ユーザー名：inari_darkfox
+メールアドレス：admin@brutalrenard.com
+パスワード：ain341rt77bg29x2fox
+になった。らしい。
