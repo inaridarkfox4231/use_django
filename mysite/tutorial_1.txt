@@ -1,0 +1,60 @@
+初めにやること：プロジェクトを作りたいディレクトリに移動して、
+django-admin startproject 「プロジェクト名」
+とコマンド。
+「プロジェクト名」：mysiteとして説明。
+以下のものが作られる：
+mysite/  （これはただの入れ物、便宜上プロジェクト名が付けられている）
+  manage.py
+  mysite/    （これがプロジェクト名、importの際にimport mysite.urlsのようにして利用する）
+    __init__.py
+    settings.py
+    urls.py    （djangoサイトの目次に相当する）
+    wsgi.py
+
+外側のmysiteディレクトリ内で
+python manage.py runserver
+とコマンドすると http://127.0.0.1:8000/ にロケットが表示される。
+Ctrl-Cで終了する。
+
+アプリケーションを作る
+アプリケーションは、外側のmysiteディレクトリ内で、
+python manage.py startapp 「アプリケーション名」
+とコマンド。ここでは投票アプリを作るのでアプリケーション名をpollsに設定する。
+以下のものが作られる：
+polls/
+  __init__.py
+  admin.py
+  apps.py
+  migrations/
+    __init__.py
+  models.py
+  tests.py
+  views.py
+
+ビューの作成
+まず、polls/views.pyを開いて、次のコードを入力：
+from django.http import HttpResponse
+def index(request):
+    return HttpResponse("Hello world. You're at the polls index.")
+    （ページの内容をコンストラクタに渡す）
+
+ビューを呼ぶには、URLを対応付けする必要がある。URLconfを作るには、同じディレクトリ（polls）
+にurls.pyを作って、
+from django.urls import path
+from . import views
+urlpatterns = [
+    path('', views.index, name = 'index'),  nameはURLの名前付けをしているらしい・・
+]
+ルートのURLconfにpolls.urlsの記述を反映させるために、
+mysite.urls.pyの方にdjango.urls.includeのimportを追加して、
+urlpatternsにinclude関数を追加する。
+mysite/urls.py
+from django.contrib import admin
+from django.urls import include, path
+
+urlpatterns =[
+    path('polls/', include('polls.urls')),
+    path('admin/', admin.site.urls),
+]
+これでpython manage.py runserverして、http://127.0.0.1:8000/polls/ にアクセスすると、
+先ほどの文字列が表示される。
