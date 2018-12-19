@@ -1,4 +1,4 @@
-データベース関連
+﻿データベース関連
 root@localhostのパスワード：ZIId34eTdASj8AD4
 七転八倒したが何とかうまくいったらしい。
 経緯
@@ -125,3 +125,5 @@ createsuperuser
 メールアドレス：admin@brutalrenard.com
 パスワード：ain341rt77bg29x2fox
 になった。らしい。
+adminから色々いじれるようになった。
+これ使うと質問作ったり削除、編集はすべて容易に出来る。すごい。

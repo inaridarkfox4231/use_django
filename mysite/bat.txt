@@ -1,0 +1,3 @@
+lycaonからrun.bat→いきなりサーバ起動
+lycaonからdj.bat→use_djangoに移動
+cd mysiteのあとrun.bat→サーバ起動
