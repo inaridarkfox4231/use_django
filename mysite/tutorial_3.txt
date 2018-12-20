@@ -38,3 +38,18 @@ path('<int:question_id>/vote/', views.vote, name = 'vote'),
 これで各々のビュー関数が呼ばれる、<int:~~~>はint型の引数を渡す、みたいな意味。
 
 ビュー関数の役割は、HttpResponseオブジェクトを送出するか、例外を送出するか。それだけ。
+
+indexビューに味を付けたい
+今のところ文字だけなので・・・
+データベースを使って、直近の5つの質問を表示するページを作ってみたい。
+from .models import Question
+Djangoのテンプレートシステムを使う。
+まず、pollsの中にtemplatesディレクトリを作成する。Djangoはこの中からhtmlのテンプレートを探す。
+templatesの中にpollsフォルダを作り、その中にindex.htmlを作ると、
+それが呼び出される仕組みになってる。
+とりあえず適当にhtmlになんか書いて、それを表示させてみる。
+
+django.templateからloaderという関数をimportする。これは、get_templateという
+関数を持っていて、引数にtemplatesフォルダ以下のhtmlの居場所を教えるとそれを呼び出してくれるみたい。
+あとはそれをrender()すれば無事htmlが表示される。
+renderには引数が取れるみたい。この後それを使ってデータベースの中身を取り出す操作を行う。
