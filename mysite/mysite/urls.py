@@ -19,7 +19,7 @@ from django.urls import include, path
 from . import views # こっちに書くんだった、そうだった。忘れてた・・
 
 urlpatterns = [
-    path('', views.hello, name = 'home'),
+    path('', views.hello, name = 'hello'),
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
 ]

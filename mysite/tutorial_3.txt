@@ -13,7 +13,7 @@ Djangoのリクエスト処理
 空欄、ですね、つまり、その、http://127.0.0.1:8000 がエラーページになってるのをどうにかしたかったわけ。
 どうしたかというと、まずmysiteのurls.pyで、
 from . import views
-urlpatternsに path('', views.hello, name = 'home') を追加。
+urlpatternsに path('', views.hello, name = 'hello') を追加。
 これによって・・んで、同じところにviews.pyファイルを作り、（mysiteの中に）
 その中に
 from django.http import HttpResponse
@@ -53,3 +53,5 @@ django.templateからloaderという関数をimportする。これは、get_temp
 関数を持っていて、引数にtemplatesフォルダ以下のhtmlの居場所を教えるとそれを呼び出してくれるみたい。
 あとはそれをrender()すれば無事htmlが表示される。
 renderには引数が取れるみたい。この後それを使ってデータベースの中身を取り出す操作を行う。
+
+次の課題：http://127.0.0.1:8000 でhtmlが呼び出されるようにtemplate使ってなんか、どうにかする。
