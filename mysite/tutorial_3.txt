@@ -25,3 +25,16 @@ path('', ...)
 だからそれで、次に、2つ目の引数、ビュー関数が、これはviews.だと同じディレクトリのviews.pyに書かれた
 関数の呼び出しになるんだけど、そこにHttpResponse何とかって書いてあってそれが呼ばれる仕組みみたいです。
 ビューに送られる引数：HttpRequestのインスタンス（requestという名前の変数がそれ）（中身は現時点では不明・・）
+include(polls.urls)とかすると、polls/以降の処理をpollsの方のurls.pyにさせることができる。
+
+新しいビュー関数を3つ追加
+def detail(request, question_id): ...
+def results(request, question_id): ...
+def vote(request, question_id): ...
+これをpollsのurls.pyから呼び出すために、urls.pyにpathを記述する。
+path('<int:question_id>/', views.detail, name = 'detail'),
+path('<int:question_id>/results/', views.results, name = 'results'),
+path('<int:question_id>/vote/', views.vote, name = 'vote'),
+これで各々のビュー関数が呼ばれる、<int:~~~>はint型の引数を渡す、みたいな意味。
+
+ビュー関数の役割は、HttpResponseオブジェクトを送出するか、例外を送出するか。それだけ。
