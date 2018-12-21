@@ -55,3 +55,7 @@ django.templateからloaderという関数をimportする。これは、get_temp
 renderには引数が取れるみたい。この後それを使ってデータベースの中身を取り出す操作を行う。
 
 次の課題：http://127.0.0.1:8000 でhtmlが呼び出されるようにtemplate使ってなんか、どうにかする。
+
+render関数のショートカットを付ける（pollsの方はデフォルトで付いてた）
+from django.shortcuts import render
+こう書くと、templates内のフォルダ名/html名でそれがrenderされる関数を表せるとか。

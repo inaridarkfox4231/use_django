@@ -1,0 +1,36 @@
+目的：http://127.0.0.1:8000 で移動するページを編集可能にする
+やったこと
+１．mysite直下に'home'ディレクトリを用意
+２．home/apps.pyを追加して
+from django.apps import AppConfig
+
+class HomeConfig(AppConfig):
+    name = 'home'
+と追記。で、mysiteのsettingsのINSTALLED_APPSに、
+'home.apps.HomeConfig'
+を追加してhomeが出来たことを伝える。
+次に、mysiteのurls.pyに''からのpathを追加する。
+    path('', include('home.urls')),
+includeでhomeのurls.pyに跳ぶようにする。
+homeのurls.pyを作り、
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+  path('', views.hello, name = 'hello'),
+]
+と作る。
+view関数が必要になるのでhome/views.pyを作り、
+from django.shortcuts import render
+
+from django.http import HttpResponse
+
+def hello(request):
+    return HttpResponse("Hello world.")
+とする（render関数は後で使うショートカット）。
+これで http://127.0.0.1:8000 にアクセスするとHello world.と表示される。
+
+あとは、pollsでやったのと同じように、home直下にtemplates/home/hello.htmlまで作り、
+views関数を書き換えて、render(requests, 'home/hello.html')をreturnするようにすれば、
+hello.html（今は空ページ）が返される。ふぅ・・
