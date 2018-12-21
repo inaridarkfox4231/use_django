@@ -5,11 +5,16 @@
     <title>投票ページの見出し</title>
   </head>
   <body>
-    <b>黒狐、参上！</b><br>
-    <ul>
-      <li><a href = "https://inaridarkfox4231.github.io/jstetris/">テトリス楽しいよ</a></li>
-      <li><a href = "https://inaridarkfox4231.github.io/othello/">オセロやってみる？</a></li>
-      <li><a href = "https://inaridarkfox4231.github.io/jscardgame1/">神経衰弱（あんま面白くない）</a></li>
-    </ul>
+    <p>{{title_text}}</p>
+    {% if latest_question_list %}
+      <ul>
+        {% for question in latest_question_list %}
+           <li><a href = "/polls/{{question.id}}">{{question.question_text}}</a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No polls are available.</p>
+    {% endif %}
+    <p>今日の{{subject}}の点数は{{score}}点でした。</p>
   </body>
 </html>

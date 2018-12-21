@@ -59,3 +59,11 @@ renderには引数が取れるみたい。この後それを使ってデータ�
 render関数のショートカットを付ける（pollsの方はデフォルトで付いてた）
 from django.shortcuts import render
 こう書くと、templates内のフォルダ名/html名でそれがrenderされる関数を表せるとか。
+
+indexから投票の質問を呼び出す処理書いてみる。
+初めに、埋め込みtenplateコードでlatest_question_listの情報をもとに質問を並べる。
+latest_question_listの取得
+view関数で、latest_question_listに最新5件の質問オブジェクトを放り込む。
+contextで、index.html内の'latest_question_list'をここで定義したlatest_question_listで置き換える
+操作を指定して、requestと共に送る。
+この、コンテキストで辞書を作ってテンプレートにレンダリングして出力、という流れが基本。
