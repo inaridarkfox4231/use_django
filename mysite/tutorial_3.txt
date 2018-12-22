@@ -67,3 +67,28 @@ view関数で、latest_question_listに最新5件の質問オブジェクトを�
 contextで、index.html内の'latest_question_list'をここで定義したlatest_question_listで置き換える
 操作を指定して、requestと共に送る。
 この、コンテキストで辞書を作ってテンプレートにレンダリングして出力、という流れが基本。
+これをショートカットで書くのがrenderという関数（shortcutsでimportする）
+
+質問詳細ビュー
+選択肢を全て出す。
+データベース関連のメソッドきちんと知らないとな・・
+question.choice.set_allはpython関数のchoice.set_all()と解釈される。
+
+name属性でたとえば'detail'としておくと、アドレスを埋め込むときに、
+"/polls/{{ question.id }}"
+の代わりに
+"{% url 'detail' question.id %}"
+と書ける。こうすると上のやつといっしょになる。
+このやり方のメリットは、アドレスをまとめて書き換えられるところ。
+urlの所を変えるとテンプレートの方も同時に書き換えられる。
+
+urlに名前空間を導入してアドレスを探しやすくする。
+app_name = 'polls'をurls.pyに追加して、
+{% url 'polls:detail' question.id %}
+と書き換える。
+
+面倒だな・・ホームページにリンク張るか。練習がてら。
+app_nameをhome/urls.pyとmysite/urls.pyにも追加。
+<li><a href = " url 'polls:index' ">投票一覧はこちら</a></li>
+これでいける。なるほど、こりゃ名前空間なかったらindex使えなくなるわ。
+いちいち違うname設定するのひたすら面倒くさいからな・・。

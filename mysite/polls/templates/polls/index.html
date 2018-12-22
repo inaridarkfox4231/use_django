@@ -5,11 +5,14 @@
     <title>投票ページの見出し</title>
   </head>
   <body>
-    <p>{{title_text}}</p>
+    <p>{{ title_text }}</p>
     {% if latest_question_list %}
       <ul>
         {% for question in latest_question_list %}
-           <li><a href = "/polls/{{question.id}}">{{question.question_text}}</a></li>
+           <!-- 書き方の問題・・これだと「/polls/」に変更が生じたときいっしょに書き換えないといけないので大変
+                name属性を指定してあれば大丈夫。 -->
+           <!--<li><a href = "/polls/{{question.id}}">{{ question.question_text }}</a></li>-->
+           <li><a href = "{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
         {% endfor %}
       </ul>
     {% else %}

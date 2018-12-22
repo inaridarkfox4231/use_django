@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+app_name = 'mysite'
 urlpatterns = [
     path('', include('home.urls')),
     path('polls/', include('polls.urls')),
