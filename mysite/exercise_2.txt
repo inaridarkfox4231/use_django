@@ -45,3 +45,17 @@ imageを表示する。
 ステップ3：html側で、{% load static %}したのち、たとえばimgタグに放り込むとして、
           <img src = "{% static"unkai.jpg"%}" alt = "My_image">
           （altはキャプションみたいなやつ）とかすると表示されるよ。
+
+バックエンドにAggを使うとWebアプリケーションでmatplotlib描画できる？
+・pngデータをレスポンスとして返す。
+・画像ファイルを一時ファイルとして作る。
+参考：https://qiita.com/5t111111/items/3d9efdbcc630daf0e48f
+1. 図表のpngデータを作る。
+2. データをcStringIO.StringIO のバッファに書き込む。
+3. 画像コンテンツとしてデータをレスポンスで返す。
+
+plt.figureってなんなんだ・・・・
+うまくいかなかったので
+http://intellectual-curiosity.tokyo/2018/10/30/djangoでmatplotlibによるグラフ表示する方法/
+を参考にして再挑戦。うまくいきました。
+やったこと：長くなるので、次。

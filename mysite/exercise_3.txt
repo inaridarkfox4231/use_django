@@ -1,0 +1,42 @@
+http://intellectual-curiosity.tokyo/2018/10/30/djangoでmatplotlibによるグラフ表示する方法/
+を参考にして、matplotlibで作った図表をWeb上に表示してみた。
+まず、urls.pyでviewsのところにsvgという形式でグラフを返す関数を用意する。こんな感じ：
+path('plot/', views.get_svg, name = 'plot'),
+次に、views.pyでget_svgを定義する。
+from django.http import HttpResponse
+import io
+import matplotlib.pyplot as plt
+import numpy as np
+
+手順1: pltにグラフを用意する
+def set_plt():
+    x = np.array([1, 2, 3, 4, 5])
+    y = np.array([10, 20, 30, 40, 50])
+    plt.plot(x, y)
+
+手順2: pltからsvgにconvertする（io使う）
+def plt_to_svg():
+    buf = io.BytesIO()
+    plt.savefig(buf, format = 'svg', bbox_inches = 'tight')
+    s = buf.getvalue()
+    buf.close()
+    return s
+
+io.BytesIO()はbytes-likeオブジェクトをbytesオブジェクトにするらしい・・
+
+手順3: svgをresponseとして返す。
+def get_svg():
+    set_plt()
+    svg = plt_to_svg()
+    plt.cla()  # クリーンアップ
+    response = HttpResponse(svg, content-type = "image/svg+xml") # svgだとだめで+xmlが必要だった
+    return response
+
+調べたらimage/svgというMIMEタイプは存在しなくて、image/svg+xmlで型になってた。なるほどねー。
+タイトル付けようと思ったんだけど、
+plt.plot(x, y)
+のあとにplt.title("simple")ってやらないといけないのね・・先にやるとエラーになる。
+
+・・ちょこっと改良して、番号付けた。今、例のシンプルなグラフは
+use_plt/plot/1/
+で表示されるようになってる。
