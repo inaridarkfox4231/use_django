@@ -40,11 +40,13 @@ from django.shortcuts import render
 return render(request, 'use_plt/index.html')ですね。
 
 imageを表示する。
+ステップ0: use_plt直下にstaticフォルダを作成し、そこに表示したい画像（今の場合はunkai.png）を入れる。
 ステップ1：settingsにdjango.contrib.staticfilesが入ってることを確認。
 ステップ2：settingsの中でSTATIC/URL = "/static/"と記述（もうなってる）
 ステップ3：html側で、{% load static %}したのち、たとえばimgタグに放り込むとして、
-          <img src = "{% static"unkai.jpg"%}" alt = "My_image">
-          （altはキャプションみたいなやつ）とかすると表示されるよ。
+          <img src = "{% static "unkai.jpg" %}" alt = "My_image">
+          とかすると表示されるよ（altは画像が表示されない場合の説明用テキスト）。
+
 
 バックエンドにAggを使うとWebアプリケーションでmatplotlib描画できる？
 ・pngデータをレスポンスとして返す。

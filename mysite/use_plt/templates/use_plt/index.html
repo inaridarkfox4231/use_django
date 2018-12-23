@@ -6,6 +6,9 @@
   </head>
   <body>
     <h1>matplotlib使ってみる</h1>
+    {% load static %}
+    <b>Niko and rue</b>
+    <img src = "{% static "Niko_rue.png" %}" alt = "Niko and rue">
     <img src = "{% url 'use_plt:plot' 1 %}">
   </body>
 </html>
