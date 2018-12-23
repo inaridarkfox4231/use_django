@@ -34,4 +34,14 @@ http://127.0.0.1:8000/use_plt/inari_darkfox/greet
 って出る。やったね。
 ていうか、保存するたびに逐一コードチェックしてくれるのありがたいな・・jsだとやってくれないもん・・
 templatesの復習。
-use_plt内に
+use_plt内にtemplatesフォルダ、その中にuse_pltフォルダ、その中にindex.html作る。
+次に、shortcutsのrenderを使う。
+from django.shortcuts import render
+return render(request, 'use_plt/index.html')ですね。
+
+imageを表示する。
+ステップ1：settingsにdjango.contrib.staticfilesが入ってることを確認。
+ステップ2：settingsの中でSTATIC/URL = "/static/"と記述（もうなってる）
+ステップ3：html側で、{% load static %}したのち、たとえばimgタグに放り込むとして、
+          <img src = "{% static"unkai.jpg"%}" alt = "My_image">
+          （altはキャプションみたいなやつ）とかすると表示されるよ。
