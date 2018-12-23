@@ -20,5 +20,6 @@ app_name = 'mysite'
 urlpatterns = [
     path('', include('home.urls')),
     path('polls/', include('polls.urls')),
+    path('use_plt/', include('use_plt.urls')),
     path('admin/', admin.site.urls),
 ]

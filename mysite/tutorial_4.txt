@@ -1,0 +1,13 @@
+最初に、投票一覧ページにホームに戻るリンクを張りました。
+<a href = {% url 'home:hello' %}></a>
+ってやったらいけた。ちょろいな！
+
+try:
+    question = Question.objects.get(pk = question_id)
+except Question.DoesNotExist:
+    raise Http404("Question does not exist.")
+上の部分はget_object_or_404()を用いて書き換えられる。
+question = get_object_or_404(Question, pk = question_id)
+
+投票ページを作る・・難しい。
+use_plt作ってみる。

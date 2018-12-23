@@ -18,6 +18,6 @@
     {% else %}
       <p>No polls are available.</p>
     {% endif %}
-    <p>今日の{{subject}}の点数は{{score}}点でした。</p>
+    <a href = "{% url 'home:hello' %}">ホームページに戻る</a>
   </body>
 </html>

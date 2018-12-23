@@ -1,0 +1,37 @@
+復習してから先進もうかと・・
+まずurls.pyを作る。 apps.py, tests.py,views.py,__init__.py も作ろう。
+mysiteのurlsに path('use_plt/', include('use_plt.urls')) を追加。
+mysiteのsettingsのINSTALLED_APPSに'use_plt.apps.Use_pltConfig' を追加。
+use_pltのappsに
+from django.apps import AppConfig
+class Use_pltConfig(AppConfig):
+    name = 'use_plt'
+と書く（クラスの継承・・色々機能とかあるんだろうけど今はよく分からない・・）
+urls.pyに、view関数の呼び出しを書く。
+from django.urls import path
+from . import views
+app_name = 'use_plt'
+urlpatterns = [
+    path('', views.index, name = 'index'),
+]
+これであとはviewを作るだけ。
+とりあえずなんか文字を出力する。
+from django.http import HttpResponse
+def index(request):
+    return HttpResponse("なんか文字")
+ふぅ・・
+なんとか成功しました：
+matplotlibでなんかつくりたいです
+
+ちょっと実験
+use_plt内にmaketext.pyを作り、
+from use_plt.maketext import make_greet
+さらにurls.pyのところに
+path('<slug:your_name>/greet', views.greet, name = 'greet')
+これで・・
+http://127.0.0.1:8000/use_plt/inari_darkfox/greet
+→inari_darkfoxさん、こんにちは！
+って出る。やったね。
+ていうか、保存するたびに逐一コードチェックしてくれるのありがたいな・・jsだとやってくれないもん・・
+templatesの復習。
+use_plt内に

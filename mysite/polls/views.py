@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 # Create your views here.
 from django.http import HttpResponse
@@ -9,22 +9,15 @@ from .models import Question
 def index(request):
     text = "直近の質問5つを新しい順に表示"
     list = Question.objects.order_by('-pub_date')[:5]
-    subject = "数学"
-    score = "100"
     context = {
       'title_text': text, # title_textは変数展開{{}}でindex.htmlに埋め込まれている
       'latest_question_list': list, # latest_question_listはfor文の形で埋め込み。
-      'subject': subject,
-      'score': score,
     }
     return render(request, 'polls/index.html', context)
 
 # 新しいビュー関数を追加
 def detail(request, question_id):
-    try:
-        question = Question.objects.get(pk = question_id)
-    except Question.DoesNotExist:
-        raise Http404("Question does not exist.")
+    question = get_object_or_404(Question, pk = question_id)
     return render(request, "polls/detail.html", {'question': question})
     #return HttpResponse("You're looking at question %s." % question_id)
 
