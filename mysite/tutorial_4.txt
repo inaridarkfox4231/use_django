@@ -44,3 +44,29 @@ vote関数を作る。
 次に、result関数を作る。
 resultのtemplateを作る。
 これで投票できるようになった。
+
+汎用ビューについて。
+1. URLを介してデータが送られる
+2. それをtemplateに辞書を使ってレンダリング
+3. そうしてできたhtmlを送信
+この一連の流れが冗長なので、generic viewを使って、まあ、簡略化しましょうという話。
+
+まず、URLconfを修正します。
+これらのIndexView, DetailView, ResultsViewがそれぞれview.pyで定義されたクラスで、
+そのメソッドであるas_view()を呼び出す形でview関数が表現されているみたいね。
+
+genericをimportして、ListViewとDetailViewというふたつの概念からビューを作る。
+
+DetailViewにはpkの形でプライマリーキーを渡すことになってるのでpkを渡した形。
+そして、modelを指定する。この中のpk番目に相当するものが・・modelがQuestionなのでquestionという形。
+そんなわけで、・・error_messageどうなってるんだろ・・？
+template_nameの説明。この方法だと、<app_name>/<model_name>.detail.htmlというhtmlが
+自動的に作られてそっちが使われるんだけど、template_nameを指定すればそっちを使わせることが
+できるという仕組みです。同様に、ListViewの方も自動的に～～.list.htmlが作られるけど、template_nameで
+上書きしている。
+DetailViewではこの場合questionが渡される。objectが。ListViewではquestion_listが渡される。この
+デフォルトの名前をいじるにはcontext_object_name = '～～' とかしてやる。
+get_querysetを定義してどんなリストが放り込まれるのか定める必要あり。
+以上、クラスベースビューの説明でした。
+
+ただまぁ、慣れないうちはちゃんと省略しないで書くべきだよね・・

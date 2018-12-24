@@ -6,25 +6,24 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
 from .models import Choice, Question
+from django.views import generic # これが新しく追加
 
-def index(request):
-    text = "直近の質問5つを新しい順に表示"
-    list = Question.objects.order_by('-pub_date')[:5]
-    context = {
-      'title_text': text, # title_textは変数展開{{}}でindex.htmlに埋め込まれている
-      'latest_question_list': list, # latest_question_listはfor文の形で埋め込み。
-    }
-    return render(request, 'polls/index.html', context)
+class IndexView(generic.ListView):
+    template_name = 'polls/index.html'
+    context_object_name = 'latest_question_list'
 
-# 新しいビュー関数を追加
-def detail(request, question_id):
-    question = get_object_or_404(Question, pk = question_id)
-    return render(request, "polls/detail.html", {'question': question})
-    #return HttpResponse("You're looking at question %s." % question_id)
+    def get_queryset(self):
+        """ Return the last five questions. """
+        return Question.objects.order_by('-pub_date')[:5]
 
-def results(request, question_id):
-    question = get_object_or_404(Question, pk = question_id)
-    return render(request, 'polls/results.html', {'question': question})
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = 'polls/detail.html'
+    # こう書くだけでなんかね、Questionテーブルのpkってわかるみたい。
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk = question_id)
