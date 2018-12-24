@@ -1,14 +1,17 @@
-<!DOCTYPE html>
-<html lang="ja" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>画像、グラフの表示</title>
-  </head>
-  <body>
-    <h1>matplotlib使ってみる</h1>
-    {% load static %}
-    <b>Niko and rue</b><br>
-    <img src = "{% static "Niko_rue.png" %}" alt = "Niko and rue"><br>
-    <img src = "{% url 'use_plt:plot' 1 %}" alt = "failed">
-  </body>
-</html>
+{% extends './base.html' %}
+
+{% block title %}画像の表示{% endblock %}
+
+{% block header %}
+<h1>matplotlib使ってみる</h1>
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<b>Niko and rue</b><br>
+<img src = "{% static "Niko_rue.png" %}" alt = "Niko and rue"><br>
+{% endblock %}
+
+{% block footer %}
+<a href = "{% url 'use_plt:show_plot' 1 %}">グラフの描画はこちらで</a>
+{% endblock %}

@@ -8,6 +8,10 @@ import numpy as np
 def index(request):
     return render(request, 'use_plt/index.html')
 
+def show_plot(request, pk):
+    context = {'pk': pk}
+    return render(request, 'use_plt/plot.html', context)
+
 def set_plt(pk):
     if pk is 1:
         fig = plt.figure()
@@ -24,18 +28,11 @@ def set_plt(pk):
         plt.title(r'$y={x}^2$')
 
     if pk is 3:
-        from mpl_toolkits.mplot3d import Axes3D
         fig = plt.figure()
-        ax = Axes3D(fig)
-        X = np.arange(-4, 4, 0.25)
-        Y = np.arange(-4, 4, 0.25)
-        X, Y = np.meshgrid(X, Y)
-        R = np.sqrt(7 * (X ** 2) + 2 * (Y ** 2))
-        Z = np.sin(R)
-        ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=plt.cm.hot)
-        ax.contourf(X, Y, Z, zdir='z', offset=-2, cmap=plt.cm.hot)
-        ax.set_zlim(-2, 2)
-        plt.title(r'${Z}^2 = 7{X}^2 + 2{Y}^2$')
+        x = np.array([1, 2, 3, 4, 5])
+        y = np.array([50, 40, 30, 20, 10])
+        plt.plot(x, y)
+        plt.title("simple")
 
 def plt_to_svg():
     buf = io.BytesIO()

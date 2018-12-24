@@ -1,0 +1,25 @@
+{% extends './base.html' %}
+
+{% block title %}
+グラフの表示
+{% endblock %}
+
+{% block header %}
+<p>
+  グラフを選択してください：
+  <ul>
+    <li><a href = "{% url 'use_plt:show_plot' 1 %}">右上がりの直線</a></li>
+    <li><a href = "{% url 'use_plt:show_plot' 2 %}">放物線</a></li>
+    <li><a href = "{% url 'use_plt:show_plot' 3 %}">右下がりの直線</a></li>
+  </ul>
+</p>
+{% endblock %}
+
+{% block content %}
+<p>グラフ{{ pk }}</p><br>
+<img id = "graph" src = "{% url 'use_plt:plot' pk %}" alt = "No Image"><br>
+{% endblock %}
+
+{% block footer %}
+<a href = "{% url 'use_plt:index' %}">戻る</a>
+{% endblock %}
