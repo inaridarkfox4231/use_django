@@ -10,4 +10,37 @@ except Question.DoesNotExist:
 question = get_object_or_404(Question, pk = question_id)
 
 投票ページを作る・・難しい。
-use_plt作ってみる。
+detail.htmlを作ろう。
+<h1>{{ question.question_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'polls:vote' question.id %}" method="post">
+{% csrf_token %}
+{% for choice in question.choice_set.all %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+{% endfor %}
+<input type="submit" value="Vote">
+</form>
+h1のところは、questionに対してテキスト。
+クロスサイトリクエストフォージェリ（csrf）？？
+攻撃者が・・まあ、えーと、うん。
+あるフォーム画面から送信するやつで、似たようなフォーム画面のサイトを別に作って、
+そっちから送信させて混乱を引き起こすみたいなことを防ぐために、正規画面からきちんと
+送信されたかどうかを確かめる仕組みが必要なんだって！
+それがこの{% csrf_token %}で、こう書くだけで勝手にtokenが生成されるんだと。
+そして、送信した時に勝手に判定してtokenが一致しないと跳ね返される・・はず。
+
+ラジオボタン詳しくないので勉強。
+複数のラジオボタンに同じnameを付けると、グループが生成されてそのうちひとつしか選べなくなる。で、
+それを選ぶとsubmitクリックしたときにその、チェックされてるのが送信される。valueが送信される。わけ。
+formでmethodをポストにするのは、サーバ側のデータが更新される時は常にpostを指定する慣例があるため。
+nameがchoiceなので、requestからrequest.POST['choice']とすると値を取り出すことができる。
+そして、polls:voteなので http://127.0.0.1:8000/use_plt/polls/vote に移動する。
+その際にデータの更新が伴うので、postになる。
+
+vote関数を作る。
+次に、result関数を作る。
+resultのtemplateを作る。
+これで投票できるようになった。
