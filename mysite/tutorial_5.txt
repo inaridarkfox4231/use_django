@@ -1,0 +1,44 @@
+テスト。
+tests.pyに書くと、プログラムがtests.pyを巡回してくれるんだって！
+直近の日付の質問を返す関数が、未来の日付でも正しいを返すのがおかしいので、
+それでFalseになるように、その、testする。
+python manage.py test polls
+ってやるとtestしてくれる（tests.pyを実行してくれる）。
+
+流れ。
+
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+F
+======================================================================
+FAIL: test_was_published_recently_with_future_question (polls.tests.QuestionModelTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/path/to/mysite/polls/tests.py", line 16, in test_was_published_recently_with_future_question
+    self.assertIs(future_question.was_published_recently(), False)
+AssertionError: True is not False
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+
+まずpolls内にあるtests.pyというファイルを探して、django.test.TestCaseクラスのサブクラスを探す。
+それを元にテスト用のデータベースを作成。
+テスト用のメソッドとしてtestで始まるメソッドを探し実行する。
+assertIs()を実行、falseだとエラーになるんだって。
+最後にデータベースを破棄してテスト終了。
+
+やり直した場合。
+
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK
+Destroying test database for alias 'default'...
+
+OKだそうです。よかったーー。
