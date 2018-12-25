@@ -1,0 +1,26 @@
+{% extends './base.html' %}
+
+{% block title %}
+グラフの作成
+{% endblock %}
+
+{% block header %}
+<h2>データ入力スペース</h2>
+<form action = "{% url 'use_plt:make_plot' %}" method = 'post'>
+  {% csrf_token %}
+  <p>y=
+  <input type = "text" name = "ind_3" value = "{{ ind_3 }}">x^3+
+  <input type = "text" name = "ind_2" value = "{{ ind_2 }}">x^2+
+  <input type = "text" name = "ind_1" value = "{{ ind_1 }}">x+
+  <input type = "text" name = "ind_0" value = "{{ ind_0 }}">のグラフ</p>
+  <input type = "submit" value = "Make">
+</form>
+{% endblock %}
+
+{% block content %}
+<img src = "/use_plt/plot_2/{{ ind_3 }}/{{ ind_2 }}/{{ ind_1 }}/{{ ind_0 }}/" alt = "No Image">
+{% endblock %}
+
+{% block footer %}
+<a href = "{% url 'use_plt:index' %}">戻る</a>
+{% endblock %}

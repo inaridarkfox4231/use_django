@@ -9,9 +9,10 @@
 {% block content %}
 {% load static %}
 <b>Niko and rue</b><br>
-<img src = "{% static "Niko_rue.png" %}" alt = "Niko and rue"><br>
+<img src = "{% static 'use_plt/images/Niko_rue.png' %}" alt = "Niko and rue"><br>
 {% endblock %}
 
 {% block footer %}
-<a href = "{% url 'use_plt:show_plot' 1 %}">グラフの描画はこちらで</a>
+<a href = "{% url 'use_plt:show_plot' 1 %}">グラフの描画はこちらで</a><br>
+<a href = "{% url 'use_plt:make_plot' %}">手入力でグラフを作りたい方はこちら</a>
 {% endblock %}

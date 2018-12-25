@@ -3,9 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>{% block title %}{% endblock %}</title>
-    <style>
-      *{ margin: 0; padding: 0; }
-    </style>
+    {% load static %}
+    <link rel = "stylesheet" type = "text/css" href = "{% static 'use_plt/style.css' %}">
   </head>
   <body>
     <!-- ヘッダー -->

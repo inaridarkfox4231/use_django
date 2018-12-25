@@ -12,6 +12,16 @@ def show_plot(request, pk):
     context = {'pk': pk}
     return render(request, 'use_plt/plot.html', context)
 
+def make_plot(request):
+    try:
+        context = {'ind_3': request.POST['ind_3'],
+                   'ind_2': request.POST['ind_2'],
+                   'ind_1': request.POST['ind_1'],
+                   'ind_0': request.POST['ind_0']}
+    except:
+        context = {'ind_3': 0, 'ind_2': 0, 'ind_1': 0, 'ind_0': 1 }
+    return render(request, 'use_plt/plot_2.html', context)
+
 def set_plt(pk):
     if pk is 1:
         fig = plt.figure()
@@ -34,6 +44,12 @@ def set_plt(pk):
         plt.plot(x, y)
         plt.title("simple")
 
+def make_plt(a = 0, b = 0, c = 0, d = 1):
+    fig = plt.figure()
+    x = np.linspace(-5, 5, 100)
+    y = a * x * x * x + b * x * x + c * x + d
+    plt.plot(x, y)
+
 def plt_to_svg():
     buf = io.BytesIO()
     plt.savefig(buf, format = 'svg', bbox_inches = 'tight')
@@ -45,5 +61,12 @@ def get_svg(request, pk):
     set_plt(pk)            # create the plot
     svg = plt_to_svg()   # convert plot to SVG
     plt.cla()            # clean up plt so it can be re-used
+    response = HttpResponse(svg, content_type = 'image/svg+xml')
+    return response
+
+def get_svg_custom(request, ind_3, ind_2, ind_1, ind_0):
+    make_plt(int(ind_3), int(ind_2), int(ind_1), int(ind_0))
+    svg = plt_to_svg()
+    plt.cla()
     response = HttpResponse(svg, content_type = 'image/svg+xml')
     return response
