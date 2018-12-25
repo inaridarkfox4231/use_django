@@ -13,6 +13,7 @@ def show_plot(request, pk):
     return render(request, 'use_plt/plot.html', context)
 
 def make_plot(request):
+    # 数に変換できない時は多分ここでバリデーションする必要が・・
     try:
         context = {'ind_3': request.POST['ind_3'],
                    'ind_2': request.POST['ind_2'],
@@ -44,11 +45,18 @@ def set_plt(pk):
         plt.plot(x, y)
         plt.title("simple")
 
+def str_sign(x):
+    if x >= 0:
+        return "+" + str(x)
+    else:
+        return str(x)
+
 def make_plt(a = 0, b = 0, c = 0, d = 1):
     fig = plt.figure()
     x = np.linspace(-5, 5, 100)
     y = a * x * x * x + b * x * x + c * x + d
     plt.plot(x, y)
+    plt.title("y=" + str(a) + r'$x^3$' + str_sign(b) + r'$x^2$' + str_sign(c) + r'$x$' + str_sign(d))
 
 def plt_to_svg():
     buf = io.BytesIO()
@@ -65,6 +73,9 @@ def get_svg(request, pk):
     return response
 
 def get_svg_custom(request, ind_3, ind_2, ind_1, ind_0):
+    # ここもバリデーションするか、doubleでやるかどっちか。
+    # 文字列とかね、不正な入力に対してメッセージ表示して同じページに戻るようにする。
+    # あっちのLTやLT_2もそうする方がいいかもね。そうするほどのアプリじゃないけども。
     make_plt(int(ind_3), int(ind_2), int(ind_1), int(ind_0))
     svg = plt_to_svg()
     plt.cla()
