@@ -11,8 +11,9 @@ class Question(models.Model):
         return self.question_text
     def was_published_recently(self):
         now = timezone.now()
-        return now >= self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+        return now >= self.pub_date >= now - datetime.timedelta(days=1)
         # ↑ now >= を追加して、「過去である」ということを示す。
+        # 仕様：過去の質問で今この瞬間から1日以内に投稿された場合にtrueを返す感じ。
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete = models.CASCADE)
